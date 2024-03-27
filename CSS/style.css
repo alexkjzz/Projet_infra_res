@@ -178,10 +178,16 @@ body {
 	transform: scale(1.5);	
 }
 
-a{
-    text-decoration: none;
-    color:white;
-    bottom: 1px;
+.screen__content {
+    position: relative;
+}
+
+.screen__content a {
     position: absolute;
-    text-align: right;
+    bottom: 20px; /* Adjust as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    text-decoration: none;
+    color: white;
+    white-space: nowrap; /* Empêche le retour à la ligne */
 }
