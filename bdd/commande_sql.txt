@@ -1,0 +1,26 @@
+-- Création de la table Utilisateurs
+CREATE TABLE Utilisateurs (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    Nom VARCHAR(50),
+    Prenom VARCHAR(50),
+    Email VARCHAR(100),
+    MotDePasse VARCHAR(255) -- Stockage du mot de passe crypté
+);
+
+-- Création de la table Chambres
+CREATE TABLE Chambres (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    TypeChambre VARCHAR(50),
+    Disponibilite BOOLEAN
+);
+
+-- Création de la table Reservations
+CREATE TABLE Reservations (
+    ID INT AUTO_INCREMENT PRIMARY KEY,
+    UtilisateurID INT,
+    ChambreID INT,
+    DateDebut DATE,
+    DateFin DATE,
+    FOREIGN KEY (UtilisateurID) REFERENCES Utilisateurs(ID),
+    FOREIGN KEY (ChambreID) REFERENCES Chambres(ID)
+);
