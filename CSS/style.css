@@ -176,3 +176,11 @@ body {
 .social-login__icon:hover {
 	transform: scale(1.5);	
 }
+
+a{
+    text-decoration: none;
+    color:white;
+    bottom: 1px;
+    position: absolute;
+    text-align: right;
+}
