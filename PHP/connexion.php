@@ -19,15 +19,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("La connexion à la base de données a échoué : " . $conn->connect_error);
     }
 
-    // Préparer la requête SQL pour vérifier l'authentification
-    $sql = "SELECT * FROM utilisateurs WHERE Email = '$userEmail' AND MotDePasse = '$password'";
+    // Préparer la requête SQL pour récupérer le mot de passe chiffré de l'utilisateur
+    $sql = "SELECT MotDePasse FROM utilisateurs WHERE Email = '$userEmail'";
     $result = $conn->query($sql);
 
     // Vérifier si l'utilisateur existe dans la base de données
     if ($result->num_rows == 1) {
-        // L'utilisateur a été trouvé, connexion réussie
-        header("Location: ../HTML/reservation.html"); // Rediriger l'utilisateur vers page de réservation 
-        exit();
+        // Récupérer le mot de passe chiffré de la base de données
+        $row = $result->fetch_assoc();
+        $hashed_password = $row["MotDePasse"];
+
+        // Vérifier si le mot de passe correspond
+        if (password_verify($password, $hashed_password)) {
+            // Mot de passe correct, connexion réussie
+            header("Location: ../HTML/reservation.html"); // Rediriger l'utilisateur vers la page de réservation 
+            exit();
+        } else {
+            // Mot de passe incorrect, afficher un message d'erreur
+            echo "Nom d'utilisateur / email ou mot de passe incorrect.";
+        }
     } else {
         // L'utilisateur n'a pas été trouvé, afficher un message d'erreur
         echo "Nom d'utilisateur / email ou mot de passe incorrect.";
