@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Préparer la requête SQL pour vérifier l'authentification
-    $sql = "SELECT * FROM utilisateur WHERE email = '$userEmail' AND MotDePasse = '$password'";
+    $sql = "SELECT * FROM utilisateurs WHERE Email = '$userEmail' AND MotDePasse = '$password'";
     $result = $conn->query($sql);
 
     // Vérifier si l'utilisateur existe dans la base de données
