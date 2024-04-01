@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1
--- Généré le : mer. 27 mars 2024 à 11:10
--- Version du serveur : 10.4.32-MariaDB
--- Version de PHP : 8.2.12
+-- Hôte : 127.0.0.1:3306
+-- Généré le : lun. 01 avr. 2024 à 11:47
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `prj_infra_web`
+-- Base de données : `prj_infra`
 --
 
 -- --------------------------------------------------------
@@ -27,9 +27,11 @@ SET time_zone = "+00:00";
 -- Structure de la table `chambres`
 --
 
-CREATE TABLE `chambres` (
-  `ID` int(11) NOT NULL,
-  `TypeChambre` varchar(50) DEFAULT NULL
+DROP TABLE IF EXISTS `chambres`;
+CREATE TABLE IF NOT EXISTS `chambres` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `TypeChambre` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -38,13 +40,24 @@ CREATE TABLE `chambres` (
 -- Structure de la table `reservations`
 --
 
-CREATE TABLE `reservations` (
-  `ID` int(11) NOT NULL,
-  `UtilisateurID` int(11) DEFAULT NULL,
-  `ChambreID` int(11) DEFAULT NULL,
+DROP TABLE IF EXISTS `reservations`;
+CREATE TABLE IF NOT EXISTS `reservations` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `UtilisateurID` int DEFAULT NULL,
+  `ChambreID` int DEFAULT NULL,
   `DateDebut` date DEFAULT NULL,
-  `DateFin` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `DateFin` date DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `UtilisateurID` (`UtilisateurID`),
+  KEY `ChambreID` (`ChambreID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `reservations`
+--
+
+INSERT INTO `reservations` (`ID`, `UtilisateurID`, `ChambreID`, `DateDebut`, `DateFin`) VALUES
+(1, NULL, NULL, '2024-04-03', '2024-04-05');
 
 -- --------------------------------------------------------
 
@@ -52,59 +65,22 @@ CREATE TABLE `reservations` (
 -- Structure de la table `utilisateurs`
 --
 
-CREATE TABLE `utilisateurs` (
-  `ID` int(11) NOT NULL,
-  `Nom` varchar(50) DEFAULT NULL,
-  `Prenom` varchar(50) DEFAULT NULL,
-  `Email` varchar(100) DEFAULT NULL,
-  `MotDePasse` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `utilisateurs`;
+CREATE TABLE IF NOT EXISTS `utilisateurs` (
+  `ID` int NOT NULL AUTO_INCREMENT,
+  `Nom` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Prenom` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `Email` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `MotDePasse` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Index pour les tables déchargées
+-- Déchargement des données de la table `utilisateurs`
 --
 
---
--- Index pour la table `chambres`
---
-ALTER TABLE `chambres`
-  ADD PRIMARY KEY (`ID`);
-
---
--- Index pour la table `reservations`
---
-ALTER TABLE `reservations`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `UtilisateurID` (`UtilisateurID`),
-  ADD KEY `ChambreID` (`ChambreID`);
-
---
--- Index pour la table `utilisateurs`
---
-ALTER TABLE `utilisateurs`
-  ADD PRIMARY KEY (`ID`);
-
---
--- AUTO_INCREMENT pour les tables déchargées
---
-
---
--- AUTO_INCREMENT pour la table `chambres`
---
-ALTER TABLE `chambres`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `reservations`
---
-ALTER TABLE `reservations`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT pour la table `utilisateurs`
---
-ALTER TABLE `utilisateurs`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT;
+INSERT INTO `utilisateurs` (`ID`, `Nom`, `Prenom`, `Email`, `MotDePasse`) VALUES
+(3, NULL, NULL, 'test2@test.fr', '$2y$10$9cIihi/kVdLAWcbTvrkalew9v0oChOQWUH1JcbUyir6S69Iny2kq6');
 
 --
 -- Contraintes pour les tables déchargées

@@ -18,7 +18,7 @@ $DateFin = $_POST['departure_date'];
 
 // Préparer et lier
 $stmt = $conn->prepare("INSERT INTO reservations (DateDebut, DateFin) VALUES (?, ?)");
-$stmt->bind_param("sss", $DateDebut, $DateFin);
+$stmt->bind_param("ss", $DateDebut, $DateFin);
 
 // Exécuter la requête
 $stmt->execute();
