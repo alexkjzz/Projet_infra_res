@@ -25,7 +25,13 @@
                     </div>
                     <div class="login__field">
                         <i class="login__icon fas fa-users"></i>
-                        <input type="number" class="login__input" placeholder="Nombre de personnes" name="number_of_people" min="1" required>
+                        <select class="login__input" placeholder="Type de chambre" name="type_chambre" required>
+                            <option value="">Sélectionner un type de chambre:</option>
+                            <option value="chambre_simple">Chambre simple</option>
+                            <option value="chambre_double">Chambre double</option>
+                            <option value="chambre_triple">Chambre triple</option>
+                            <option value="suite">Suite</option>
+                        </select>
                     </div>
                     <button class="button login__submit">
                         <span class="button__text">Réserver maintenant</span>
