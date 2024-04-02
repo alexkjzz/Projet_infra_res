@@ -1,8 +1,10 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
+session_start();
+$servername = "192.168.1.152";
+$username = "lmna";
+$password = "racine";
 $dbname = "prj_infra";
+$IDuser = $_SESSION["userID"];
 
 // Créer une connexion
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -15,15 +17,20 @@ if ($conn->connect_error) {
 // Récupérer les données du formulaire
 $DateDebut = $_POST['arrival_date'];
 $DateFin = $_POST['departure_date'];
+$typeChambre = $_POST['type_chambre'];
 
 // Préparer et lier
-$stmt = $conn->prepare("INSERT INTO reservations (DateDebut, DateFin) VALUES (?, ?)");
-$stmt->bind_param("ss", $DateDebut, $DateFin);
+$stmt = $conn->prepare("INSERT INTO Reservations (DateDebut, DateFin, TypeChambre, UtilisateurID) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("sssi", $DateDebut, $DateFin, $typeChambre, $IDuser);
 
 // Exécuter la requête
-$stmt->execute();
-
-echo "Réservation enregistrée avec succès";
+if ($stmt->execute()) {
+  echo "Réservation enregistrée avec succès";
+  header("refresh:5;url=../HTML/reservation.php");
+  exit;
+} else {
+  echo "Erreur lors de l'insertion : " . $stmt->error;
+}
 
 $stmt->close();
 $conn->close();

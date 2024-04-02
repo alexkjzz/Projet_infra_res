@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr" >
 <head>
@@ -16,6 +19,14 @@
 				<div class="login__field">
 					<i class="login__icon fas fa-user"></i>
 					<input type="text" class="login__input" placeholder="Username / Email" name="username_email" required>
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+					<input type="text" class="login__input" placeholder="Prénom" name="username_prenom" required>
+				</div>
+				<div class="login__field">
+					<i class="login__icon fas fa-user"></i>
+					<input type="text" class="login__input" placeholder="Nom" name="username_nom" required>
 				</div>
 				<div class="login__field">
 					<i class="login__icon fas fa-lock"></i>

@@ -4,14 +4,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
     $usernameEmail = $_POST["username_email"];
     $password = $_POST["password"];
+    $userPrenom = $_POST["username_prenom"];
+    $userNom = $_POST["username_nom"];
 
     // Chiffrer le mot de passe
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $dbpassword = "";
+    $servername = "192.168.1.152";
+    $username = "lmna";
+    $dbpassword = "racine";
     $dbname = "prj_infra";
 
     // Créer une connexion
@@ -23,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Vérifier s'il existe déjà un utilisateur avec le même nom d'utilisateur ou email
-    $sql_check_duplicate = "SELECT * FROM utilisateurs WHERE Email = '$usernameEmail'";
+    $sql_check_duplicate = "SELECT * FROM Utilisateurs WHERE Email = '$usernameEmail'";
     $result_check_duplicate = $conn->query($sql_check_duplicate);
 
     if ($result_check_duplicate->num_rows > 0) {
@@ -31,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Un compte avec ce nom d'utilisateur ou email existe déjà.";
     } else {
         // Aucun doublon trouvé, insérer les données dans la base de données avec le mot de passe chiffré
-        $sql_insert = "INSERT INTO utilisateurs (Email, MotDePasse) VALUES ('$usernameEmail', '$hashed_password')";
+        $sql_insert = "INSERT INTO Utilisateurs (Email, MotDePasse, Prenom, Nom) VALUES ('$usernameEmail', '$hashed_password', '$userPrenom', '$userNom')";
 
         if ($conn->query($sql_insert) === TRUE) {
             // Compte créé avec succès

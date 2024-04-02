@@ -1,3 +1,6 @@
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -25,7 +28,7 @@
                     <i class="button__icon fas fa-chevron-right"></i>
                 </button>
             </form>
-            <a class="login__field" href="./HTML/creation.html">vous n'avez pas de compte ?</a>
+            <a class="login__field" href="./HTML/creation.php">vous n'avez pas de compte ?</a>
         </div> 
         <div class="screen__background">
             <span class="screen__background__shape screen__background__shape4"></span>

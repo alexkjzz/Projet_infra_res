@@ -1,4 +1,6 @@
 <?php
+session_start(); // Démarrer la session
+
 // Vérifier si le formulaire de connexion a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
@@ -6,9 +8,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $dbpassword = "";
+    $servername = "192.168.1.152";
+    $username = "lmna";
+    $dbpassword = "racine";
     $dbname = "prj_infra";
 
     // Créer une connexion
@@ -19,20 +21,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         die("La connexion à la base de données a échoué : " . $conn->connect_error);
     }
 
-    // Préparer la requête SQL pour récupérer le mot de passe chiffré de l'utilisateur
-    $sql = "SELECT MotDePasse FROM utilisateurs WHERE Email = '$userEmail'";
+    // Préparer la requête SQL pour récupérer toutes les informations de l'utilisateur
+    $sql = "SELECT * FROM Utilisateurs WHERE Email = '$userEmail'";
     $result = $conn->query($sql);
 
     // Vérifier si l'utilisateur existe dans la base de données
     if ($result->num_rows == 1) {
-        // Récupérer le mot de passe chiffré de la base de données
-        $row = $result->fetch_assoc();
-        $hashed_password = $row["MotDePasse"];
+        // Récupérer toutes les informations de l'utilisateur
+        $user = $result->fetch_assoc();
 
         // Vérifier si le mot de passe correspond
-        if (password_verify($password, $hashed_password)) {
+        if (password_verify($password, $user["MotDePasse"])) {
             // Mot de passe correct, connexion réussie
-            header("Location: ../HTML/reservation.html"); // Rediriger l'utilisateur vers la page de réservation 
+            // Stocker les informations de l'utilisateur dans la session
+            $_SESSION["userID"] = $user['ID'];
+            $_SESSION["userNom"] = $user['Nom'];
+            $_SESSION["userPrenom"] = $user['Prenom'];
+            $_SESSION["userEmail"] = $user['Email'];
+            // Rediriger l'utilisateur vers la page de réservation 
+            header("Location: ../HTML/reservation.php");
             exit();
         } else {
             // Mot de passe incorrect, afficher un message d'erreur
