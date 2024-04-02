@@ -4,18 +4,18 @@ session_start();
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Page de réservation</title>
-  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
-  <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
-  <link rel="stylesheet" href="../CSS/style.css">
+    <meta charset="UTF-8">
+    <title>Page de réservation</title>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/all.css'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.2.0/css/fontawesome.css'>
+    <link rel="stylesheet" href="../CSS/style.css">
 </head>
 <body>
     <div class="container">
         <div class="screen">
             <div class="screen__content">
                 <h1>Réservation</h1>
-                <form class="login" action="../PHP/function.php" method="post">
+                <form class="login" action="../PHP/reservation.php" method="post">
                     <div class="login__field">
                         <label for="arrival-date">Date d'arrivée:</label>
                         <i class="login__icon fas fa-calendar-alt"></i>
