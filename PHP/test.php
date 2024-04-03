@@ -1,5 +1,5 @@
 <?php
-$servername = "192.168.1.152";
+$servername = "10.60.137.65";
 $username = "lmna";
 $password = "racine";
 $database = "prj_infra";
