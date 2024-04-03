@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     // Connexion à la base de données
-    $servername = "192.168.1.152";
+    $servername = "10.60.137.65";
     $username = "lmna";
     $dbpassword = "racine";
     $dbname = "prj_infra";

@@ -11,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Connexion à la base de données
-    $servername = "192.168.1.152";
+    $servername = "10.60.137.65";
     $username = "lmna";
     $dbpassword = "racine";
     $dbname = "prj_infra";
