@@ -1,6 +1,6 @@
 <?php
 session_start();
-// $servername = "192.168.1.152";
+// $servername = "172.20.10.7";
 // $username = "lmna";
 // $password = "racine";
 // $dbname = "prj_infra";
