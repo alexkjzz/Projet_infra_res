@@ -1,25 +1,25 @@
 <?php
 session_start(); // Démarrer la session
-
+require('server-db.php');
 // Vérifier si le formulaire de connexion a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
     $userEmail = $_POST["username_email"];
     $password = $_POST["password"];
 
-    // Connexion à la base de données
-    $servername = "192.168.1.152";
-    $username = "lmna";
-    $dbpassword = "racine";
-    $dbname = "prj_infra";
+    // // Connexion à la base de données
+    // $servername = "10.60.136.95";
+    // $username = "lmna";
+    // $dbpassword = "racine";
+    // $dbname = "prj_infra";
 
-    // Créer une connexion
-    $conn = new mysqli($servername, $username, $dbpassword, $dbname);
+    // // Créer une connexion
+    // $conn = new mysqli($servername, $username, $dbpassword, $dbname);
 
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("La connexion à la base de données a échoué : " . $conn->connect_error);
-    }
+    // // Vérifier la connexion
+    // if ($conn->connect_error) {
+    //     die("La connexion à la base de données a échoué : " . $conn->connect_error);
+    // }
 
     // Préparer la requête SQL pour récupérer toutes les informations de l'utilisateur
     $sql = "SELECT * FROM Utilisateurs WHERE Email = '$userEmail'";

@@ -1,4 +1,6 @@
 <?php
+
+require('server-db.php');
 // Vérifier si le formulaire de création de compte a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
@@ -10,19 +12,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Chiffrer le mot de passe
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Connexion à la base de données
-    $servername = "192.168.1.152";
-    $username = "lmna";
-    $dbpassword = "racine";
-    $dbname = "prj_infra";
+    // // Connexion à la base de données
+    // $servername = "192.168.1.152";
+    // $username = "lmna";
+    // $dbpassword = "racine";
+    // $dbname = "prj_infra";
 
-    // Créer une connexion
-    $conn = new mysqli($servername, $username, $dbpassword, $dbname);
+    // // Créer une connexion
+    // $conn = new mysqli($servername, $username, $dbpassword, $dbname);
 
-    // Vérifier la connexion
-    if ($conn->connect_error) {
-        die("La connexion à la base de données a échoué : " . $conn->connect_error);
-    }
+    // // Vérifier la connexion
+    // if ($conn->connect_error) {
+    //     die("La connexion à la base de données a échoué : " . $conn->connect_error);
+    // }
 
     // Vérifier s'il existe déjà un utilisateur avec le même nom d'utilisateur ou email
     $sql_check_duplicate = "SELECT * FROM Utilisateurs WHERE Email = '$usernameEmail'";
