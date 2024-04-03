@@ -1,7 +1,7 @@
 <?php
 
  // Connexion à la base de données
- $servername = "10.60.136.95";
+ $servername = "172.20.10.4";
  $username = "lmna";
  $dbpassword = "racine";
  $dbname = "prj_infra";
