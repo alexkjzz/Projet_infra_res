@@ -1,29 +1,18 @@
 <?php
 session_start(); // Démarrer la session
-require('server-db.php');
+require('server-db.php'); // Inclure fichier de connexion à la base de données
+
 // Vérifier si le formulaire de connexion a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
     $userEmail = $_POST["username_email"];
     $password = $_POST["password"];
 
-    // // Connexion à la base de données
-    // $servername = "172.20.10.7";
-    // $username = "lmna";
-    // $dbpassword = "racine";
-    // $dbname = "prj_infra";
-
-    // // Créer une connexion
-    // $conn = new mysqli($servername, $username, $dbpassword, $dbname);
-
-    // // Vérifier la connexion
-    // if ($conn->connect_error) {
-    //     die("La connexion à la base de données a échoué : " . $conn->connect_error);
-    // }
-
-    // Préparer la requête SQL pour récupérer toutes les informations de l'utilisateur
-    $sql = "SELECT * FROM Utilisateurs WHERE Email = '$userEmail'";
-    $result = $conn->query($sql);
+    // Requête SQL 
+    $stmt = $conn->prepare("SELECT * FROM Utilisateurs WHERE Email = ?");
+    $stmt->bind_param("s", $userEmail);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     // Vérifier si l'utilisateur existe dans la base de données
     if ($result->num_rows == 1) {
@@ -38,7 +27,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION["userNom"] = $user['Nom'];
             $_SESSION["userPrenom"] = $user['Prenom'];
             $_SESSION["userEmail"] = $user['Email'];
-            // Rediriger l'utilisateur vers la page de réservation 
+
+            // Rediriger l'utilisateur vers la page de réservation
             header("Location: ../HTML/reservation.php");
             exit();
         } else {
@@ -51,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Fermer la connexion à la base de données
+    $stmt->close();
     $conn->close();
 }
 ?>

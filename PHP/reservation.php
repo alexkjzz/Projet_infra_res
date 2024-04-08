@@ -1,37 +1,36 @@
 <?php
-session_start();
-// $servername = "172.20.10.7";
-// $username = "lmna";
-// $password = "racine";
-// $dbname = "prj_infra";
-// $IDuser = $_SESSION["userID"];
+session_start(); // Démarrer la session
+require('server-db.php'); // Inclure fichier de connexion à la base de données
 
-// // Créer une connexion
-// $conn = new mysqli($servername, $username, $password, $dbname);
-
-// // Vérifier la connexion
-// if ($conn->connect_error) {
-//   die("Échec de la connexion: " . $conn->connect_error);
-// }
-require('server-db.php');
 // Récupérer les données du formulaire
 $DateDebut = $_POST['arrival_date'];
 $DateFin = $_POST['departure_date'];
 $typeChambre = $_POST['type_chambre'];
 
-// Préparer et lier
-$stmt = $conn->prepare("INSERT INTO Reservations (DateDebut, DateFin, TypeChambre, UtilisateurID) VALUES (?, ?, ?, ?)");
-$stmt->bind_param("sssi", $DateDebut, $DateFin, $typeChambre, $IDuser);
+// Vérifier si l'utilisateur est connecté
+if (isset($_SESSION["userID"])) {
+    $userID = $_SESSION["userID"];
 
-// Exécuter la requête
-if ($stmt->execute()) {
-  echo "Réservation enregistrée avec succès";
-  header("refresh:5;url=../HTML/reservation.php");
-  exit;
+    // Préparer et lier
+    $stmt = $conn->prepare("INSERT INTO Reservations (DateDebut, DateFin, TypeChambre, UtilisateurID) VALUES (?, ?, ?, ?)");
+    if (!$stmt) {
+        die("Erreur de préparation de la requête : " . $conn->error);
+    }
+    $stmt->bind_param("sssi", $DateDebut, $DateFin, $typeChambre, $userID);
+
+    // Exécuter la requête
+    if ($stmt->execute()) {
+        echo "Réservation enregistrée avec succès";
+        header("refresh:5;url=../HTML/reservation.php");
+        exit;
+    } else {
+        echo "Erreur lors de l'insertion : " . $stmt->error;
+    }
+
+    $stmt->close();
 } else {
-  echo "Erreur lors de l'insertion : " . $stmt->error;
+    echo "Utilisateur non connecté. Veuillez vous connecter avant de faire une réservation.";
 }
 
-$stmt->close();
 $conn->close();
 ?>

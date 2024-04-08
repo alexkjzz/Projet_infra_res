@@ -1,9 +1,9 @@
 <?php
 
  // Connexion à la base de données
- $servername = "172.20.10.7";
- $username = "lmna";
- $dbpassword = "racine";
+ $servername = "localhost";
+ $username = "root";
+ $dbpassword = "";
  $dbname = "prj_infra";
 
 $conn = new mysqli($servername, $username, $dbpassword, $dbname);

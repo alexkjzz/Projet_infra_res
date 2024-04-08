@@ -1,6 +1,7 @@
 <?php
+session_start(); // Démarrer la session
+require('server-db.php'); // Inclure fichier de connexion à la base de données
 
-require('server-db.php');
 // Vérifier si le formulaire de création de compte a été soumis
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Récupérer les données du formulaire
@@ -9,44 +10,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $userPrenom = $_POST["username_prenom"];
     $userNom = $_POST["username_nom"];
 
-    // Chiffrer le mot de passe
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Valider l'adresse e-mail
+    if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
+        // Utiliser des déclarations préparées pour éviter les injections SQL
+        $stmt = $conn->prepare("SELECT * FROM Utilisateurs WHERE Email = ?");
+        $stmt->bind_param("s", $usernameEmail);
+        $stmt->execute();
+        $result_check_duplicate = $stmt->get_result();
 
-    // // Connexion à la base de données
-    // $servername = "172.20.10.7";
-    // $username = "lmna";
-    // $dbpassword = "racine";
-    // $dbname = "prj_infra";
-
-    // // Créer une connexion
-    // $conn = new mysqli($servername, $username, $dbpassword, $dbname);
-
-    // // Vérifier la connexion
-    // if ($conn->connect_error) {
-    //     die("La connexion à la base de données a échoué : " . $conn->connect_error);
-    // }
-
-    // Vérifier s'il existe déjà un utilisateur avec le même nom d'utilisateur ou email
-    $sql_check_duplicate = "SELECT * FROM Utilisateurs WHERE Email = '$usernameEmail'";
-    $result_check_duplicate = $conn->query($sql_check_duplicate);
-
-    if ($result_check_duplicate->num_rows > 0) {
-        // Doublon trouvé, afficher un message d'erreur
-        echo "Un compte avec ce nom d'utilisateur ou email existe déjà.";
-    } else {
-        // Aucun doublon trouvé, insérer les données dans la base de données avec le mot de passe chiffré
-        $sql_insert = "INSERT INTO Utilisateurs (Email, MotDePasse, Prenom, Nom) VALUES ('$usernameEmail', '$hashed_password', '$userPrenom', '$userNom')";
-
-        if ($conn->query($sql_insert) === TRUE) {
-            // Compte créé avec succès
-            echo "Compte créé avec succès !";
+        if ($result_check_duplicate->num_rows > 0) {
+            // Doublon trouvé, afficher un message d'erreur
+            echo "Un compte avec ce nom d'utilisateur ou email existe déjà.";
         } else {
-            // Erreur lors de l'insertion dans la base de données
-            echo "Erreur lors de la création du compte : " . $conn->error;
+            // Hacher le mot de passe
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+            // Insérer les données dans la base de données avec le mot de passe chiffré
+            $stmt_insert = $conn->prepare("INSERT INTO Utilisateurs (Email, MotDePasse, Prenom, Nom) VALUES (?, ?, ?, ?)");
+            $stmt_insert->bind_param("ssss", $usernameEmail, $hashed_password, $userPrenom, $userNom);
+
+            if ($stmt_insert->execute()) {
+                // Compte créé avec succès
+                echo "Compte créé avec succès !";
+                header("refresh:5;url=../index.php");
+            } else {
+                // Erreur lors de l'insertion dans la base de données
+                echo "Erreur lors de la création du compte : " . $stmt_insert->error;
+            }
         }
+
+        // Fermer la connexion à la base de données
+        $stmt->close();
+        $stmt_insert->close();
+    } else {
+        // Adresse e-mail invalide, afficher un message d'erreur
+        echo "Adresse e-mail invalide.";
     }
 
-    // Fermer la connexion à la base de données
     $conn->close();
 }
 ?>
