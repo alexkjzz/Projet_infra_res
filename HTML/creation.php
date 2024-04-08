@@ -37,7 +37,7 @@ session_start();
 					<i class="button__icon fas fa-chevron-right"></i>
 				</button>				
 			</form>
-            <a class="login__field" href="../index.html">vous avez déja un compte ?</a>
+            <a class="login__field" href="../index.php">vous avez déja un compte ?</a>
 		</div> 
 		<div class="screen__background">
 			<span class="screen__background__shape screen__background__shape4"></span>
