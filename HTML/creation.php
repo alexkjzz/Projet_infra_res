@@ -11,7 +11,7 @@ session_start();
 
 </head>
 <body>
-<!-- partial:index.partial.html -->
+
 <div class="container">
 	<div class="screen">
 		<div class="screen__content">

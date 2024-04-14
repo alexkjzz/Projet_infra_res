@@ -11,7 +11,7 @@ $typeChambre = $_POST['type_chambre'];
 if (isset($_SESSION["userID"])) {
     $userID = $_SESSION["userID"];
 
-    // Préparer et lier
+    // Préparer requête SQL
     $stmt = $conn->prepare("INSERT INTO Reservations (DateDebut, DateFin, TypeChambre, UtilisateurID) VALUES (?, ?, ?, ?)");
     if (!$stmt) {
         die("Erreur de préparation de la requête : " . $conn->error);

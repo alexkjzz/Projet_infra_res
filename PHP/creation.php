@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Valider l'adresse e-mail
     if (filter_var($usernameEmail, FILTER_VALIDATE_EMAIL)) {
-        // Utiliser des déclarations préparées pour éviter les injections SQL
+        // Requête SQL pour vérifier si un compte avec le même nom d'utilisateur ou adresse e-mail existe déjà
         $stmt = $conn->prepare("SELECT * FROM Utilisateurs WHERE Email = ?");
         $stmt->bind_param("s", $usernameEmail);
         $stmt->execute();
